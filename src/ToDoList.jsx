@@ -11,6 +11,17 @@ function ToDoList() {
     }, [tasks]);
 
     const [newTask, setNewTask] = useState("");
+    
+
+    // Live Time
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
 
     function handleInputChange(event) {
         setNewTask(event.target.value);
@@ -53,6 +64,13 @@ function ToDoList() {
     return(
         <div className="to_do_list">
 
+            <div className="time-display">
+                {currentTime.toLocaleTimeString()}
+                <br />
+                <span className="date">{currentTime.toLocaleDateString()}</span>
+                
+            </div>
+
             <h1>My To-Do List</h1>
 
             <div>
@@ -72,6 +90,7 @@ function ToDoList() {
             <ol>
                 {tasks.map((task, index) => (
                     <li key={index}>
+                        <input type="checkbox" />
                         <span className="text">{task}</span>
                         <button className="dltBtn" onClick={() => deleteTask(index)}>🗑️</button>
                         <button className="moveBtn" onClick={() => movetaskUp(index)}>🔼</button>
